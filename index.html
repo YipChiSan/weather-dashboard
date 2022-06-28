@@ -15,12 +15,27 @@
     </head>
 
     <body>
-        <header class="jumbotron">
+        <header>
             <h1 class="display-3">Weather Dashboard</h1>
         </header>
         <p>https://openweathermap.org/api/one-call-api</p>
-        <div class="container">
-            
+        <div class="container-fluid">
+            <div class="row">
+                <div id="search-bar" class="col-3">
+                    <div class="form-group">
+                        <label for="search-city">Search for a City</label>
+                        <input type="text" class="form-control" id="city-search" placeholder="Enter a city">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    <ul id="search-history"></ul>
+                </div>
+
+                <div id="weather-display" class="col-9">
+                    <div id="today-weather"></div>
+                    <ul id="weather-forcast"></ul>
+                </div>
+            </div>
 
         </div>
 
