@@ -36,7 +36,6 @@ function handleSubmit(e) {
             historyList = [];
         }
         historyList.push(curVal);
-        console.log(historyList);
         localStorage.setItem("search-history", historyList);
     }
     displaySearchHistory();
