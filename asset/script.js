@@ -1,4 +1,4 @@
-
+let searchHistory = $("#search-history");
 let searchBarEl = $("#city-search");
 let buttonEl = $("button");
 let todayWeatherEl = $("#today-weather");
@@ -11,13 +11,35 @@ let lon;
 let address;
 
 buttonEl.click(handleSubmit);
+displaySearchHistory();
+
+function displaySearchHistory() {
+    let historyList = localStorage.getItem("search-history");
+    if (historyList) {
+        historyList = JSON.parse(historyList);
+        for (let historyItem of historyList) {
+            let historyItemEl = $("<button type='submit' class='btn btn-secondary btn-block'>" + historyItem + "</button>");
+            searchHistory.append(historyItemEl);
+        }
+    }
+}
 
 function handleSubmit(e) {
     e.preventDefault();
     let curVal = searchBarEl.val();
     if (curVal) {
         address = curVal;
+        let historyList = localStorage.getItem("search-history");
+        if (historyList !== null) {
+            historyList = JSON.parse(historyList);
+        } else {
+            historyList = [];
+        }
+        historyList.push(curVal);
+        console.log(historyList);
+        localStorage.setItem("search-history", historyList);
     }
+    displaySearchHistory();
 }
 
 function fetchWeatherData() {
