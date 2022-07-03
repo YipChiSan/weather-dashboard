@@ -20,6 +20,7 @@ function displaySearchHistory() {
     if (historyList) {
         for (let historyItem of historyList) {
             let historyItemEl = $("<button type='submit' class='btn btn-secondary btn-block'>" + historyItem + "</button>");
+            historyItemEl.click(handleClickonHistory);
             searchHistory.append(historyItemEl);
         }
     }
@@ -29,7 +30,11 @@ function handleSubmit(e) {
     e.preventDefault();
     getSearchHistory();
     displaySearchHistory();
-    weatherData = [];
+    fetchData();
+}
+
+function handleClickonHistory(e) {
+    address = $(this).text();
     fetchData();
 }
 
@@ -53,6 +58,7 @@ function fetchWeatherData() {
 }
 
 function fetchData() {
+    weatherData = [];
     fetch(locBaseUrl + address + "&limit=1&appid=" + apiKey)
         .then(response => response.json())
         .then(data => {
