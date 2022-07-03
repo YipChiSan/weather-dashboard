@@ -9,7 +9,7 @@ let weatherForecastEl = $("#weather-forecast");
 const apiKey = "083d29d9792e86f3b636dd9ed82e9c2b";
 const weatherBaseUrl = "https://api.openweathermap.org/data/2.5/onecall?"; 
 const locBaseUrl = "http://api.openweathermap.org/geo/1.0/direct?q=";
-const weatherData = [];
+let weatherData = [];
 
 buttonEl.click(handleSubmit);
 displaySearchHistory();
@@ -29,6 +29,7 @@ function handleSubmit(e) {
     e.preventDefault();
     getSearchHistory();
     displaySearchHistory();
+    weatherData = [];
     fetchData();
 }
 
@@ -43,7 +44,6 @@ function getSearchHistory() {
         }
         localStorage.setItem("search-history", JSON.stringify(historyList));
     }
-    searchBarEl.val("");
 }
 
 function fetchWeatherData() {
@@ -74,6 +74,8 @@ function handleWeatherData(data) {
         weatherData[weatherData.length - 1]["uvIndexDesc"] = getUVIndexCollection(data.daily[i].uvi);
     }
     displayTodayWeather();
+    displayForecastWeather();
+    searchBarEl.val("");
 }
 
 function getUVIndexCollection(uvi) {
@@ -87,6 +89,7 @@ function getUVIndexCollection(uvi) {
 }
 
 function displayTodayWeather() {
+    todayWeatherEl.empty();
     let addressHeaderEl = $('<h2>' + address + " " + weatherData[0]["date"] + "</h2>");
 
     let iconEl =$('<img src=http://openweathermap.org/img/wn/' + weatherData[0]["icon"] + "@2x.png" + " >");
@@ -102,7 +105,7 @@ function displayTodayWeather() {
 
     uvDataEl.css({"color": "white", "backgroundColor": weatherData[0]["uvIndexDesc"], "padding" : "5px"});
 
-    let uvEl = $('<span>Wind: </span>');
+    let uvEl = $('<span>UV Index: </span>');
 
     uvContainerEl.append(uvEl);
     uvContainerEl.append(uvDataEl);
@@ -114,6 +117,29 @@ function displayTodayWeather() {
     todayWeatherEl.append(humdEl);
     todayWeatherEl.append(uvContainerEl);
 
-    console.log(weatherData);
+    todayWeatherEl.css({"border": "solid"});
+}
 
+function displayForecastWeather() {
+    let startingIndex = 1;
+    $(".forecast-item").each(function() {
+        $(this).empty();
+        $(this).css({"backgroundColor" : "#0000b3", "color" : "white"})
+        let addressHeaderEl = $('<h2>' + weatherData[startingIndex]["date"] + "</h2>");
+
+        let iconEl =$('<img src=http://openweathermap.org/img/wn/' + weatherData[startingIndex]["icon"] + "@2x.png" + " >");
+    
+        let tempEl = $('<p>Temp: ' + weatherData[startingIndex]["temp"] + "</p>");
+
+        let windEl = $('<p>Wind: ' + weatherData[startingIndex]["wind"] + "</p>");
+
+        let humdEl = $('<p>Humidity: ' + weatherData[startingIndex]["humidity"] + "</p>");
+
+        $(this).append(addressHeaderEl);
+        $(this).append(iconEl);
+        $(this).append(tempEl);
+        $(this).append(windEl);
+        $(this).append(humdEl);
+        startingIndex++;
+    })
 }
