@@ -14,9 +14,9 @@ buttonEl.click(handleSubmit);
 displaySearchHistory();
 
 function displaySearchHistory() {
-    let historyList = localStorage.getItem("search-history");
+    let historyList = JSON.parse(localStorage.getItem("search-history"));
+    searchHistory.empty();
     if (historyList) {
-        historyList = JSON.parse(historyList);
         for (let historyItem of historyList) {
             let historyItemEl = $("<button type='submit' class='btn btn-secondary btn-block'>" + historyItem + "</button>");
             searchHistory.append(historyItemEl);
@@ -29,15 +29,14 @@ function handleSubmit(e) {
     let curVal = searchBarEl.val();
     if (curVal) {
         address = curVal;
-        let historyList = localStorage.getItem("search-history");
-        if (historyList !== null) {
-            historyList = JSON.parse(historyList);
-        } else {
-            historyList = [];
+        let historyList = (localStorage.getItem("search-history") === null) ? [] : JSON.parse(localStorage.getItem("search-history"));
+
+        if (!historyList.includes(curVal.toUpperCase())) {
+            historyList = [...historyList, curVal.toUpperCase()];
         }
-        historyList.push(curVal);
-        localStorage.setItem("search-history", historyList);
+        localStorage.setItem("search-history", JSON.stringify(historyList));
     }
+    searchBarEl.val("");
     displaySearchHistory();
 }
 
