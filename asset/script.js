@@ -62,9 +62,14 @@ function fetchData() {
     fetch(locBaseUrl + address + "&limit=1&appid=" + apiKey)
         .then(response => response.json())
         .then(data => {
-            lat = data[0].lat;
-            lon = data[0].lon;
-            fetchWeatherData();
+            if (data[0]){
+                lat = data[0].lat;
+                lon = data[0].lon;
+                fetchWeatherData();
+            } else {
+                alert("Invalid Location");
+            }
+
         });
 }
 
