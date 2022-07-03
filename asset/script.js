@@ -26,6 +26,15 @@ function displaySearchHistory() {
 
 function handleSubmit(e) {
     e.preventDefault();
+    getSearchHistory();
+    displaySearchHistory();
+}
+
+function getWeatherData() {
+    
+}
+
+function getSearchHistory() {
     let curVal = searchBarEl.val();
     if (curVal) {
         address = curVal;
@@ -37,7 +46,6 @@ function handleSubmit(e) {
         localStorage.setItem("search-history", JSON.stringify(historyList));
     }
     searchBarEl.val("");
-    displaySearchHistory();
 }
 
 function fetchWeatherData() {
