@@ -68,23 +68,52 @@ function handleWeatherData(data) {
         weatherData[weatherData.length - 1]["date"] = moment.unix(data.daily[i].dt).utcOffset('+1000').format('D/M/YYYY');
         weatherData[weatherData.length - 1]["icon"] = data.daily[i].weather[0].icon;
         weatherData[weatherData.length - 1]["temp"] = data.daily[i].temp.day + "°C";
-        weatherData[weatherData.length - 1]["wind"] = data.daily[i].wind_speed + "metre/sec";
+        weatherData[weatherData.length - 1]["wind"] = data.daily[i].wind_speed + " metre/sec";
         weatherData[weatherData.length - 1]["humidity"] = data.daily[i].humidity + "%";
         weatherData[weatherData.length - 1]["uvIndex"] = data.daily[i].uvi;
         weatherData[weatherData.length - 1]["uvIndexDesc"] = getUVIndexCollection(data.daily[i].uvi);
     }
+    displayTodayWeather();
 }
 
 function getUVIndexCollection(uvi) {
     if (uvi <= 2) {
-        return "f";
+        return "green";
     } else if (uvi <= 7) {
-        return "m";
+        return "orange";
     } else {
-        return 's';
+        return 'red';
     }
 }
 
 function displayTodayWeather() {
+    let addressHeaderEl = $('<h2>' + address + " " + weatherData[0]["date"] + "</h2>");
+
+    let iconEl =$('<img src=http://openweathermap.org/img/wn/' + weatherData[0]["icon"] + "@2x.png" + " >");
+    
+    let tempEl = $('<p>Temp: ' + weatherData[0]["temp"] + "</p>");
+
+    let windEl = $('<p>Wind: ' + weatherData[0]["wind"] + "</p>");
+
+    let humdEl = $('<p>Humidity: ' + weatherData[0]["humidity"] + "</p>");
+
+    let uvContainerEl = $('<div></div>');
+    let uvDataEl = $('<span>' + weatherData[0]["uvIndex"] + "</span>");
+
+    uvDataEl.css({"color": "white", "backgroundColor": weatherData[0]["uvIndexDesc"], "padding" : "5px"});
+
+    let uvEl = $('<span>Wind: </span>');
+
+    uvContainerEl.append(uvEl);
+    uvContainerEl.append(uvDataEl);
+
+    todayWeatherEl.append(addressHeaderEl);
+    todayWeatherEl.append(iconEl);
+    todayWeatherEl.append(tempEl);
+    todayWeatherEl.append(windEl);
+    todayWeatherEl.append(humdEl);
+    todayWeatherEl.append(uvContainerEl);
+
+    console.log(weatherData);
 
 }
