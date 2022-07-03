@@ -8,7 +8,7 @@ let todayWeatherEl = $("#today-weather");
 let weatherForecastEl = $("#weather-forecast");
 const apiKey = "083d29d9792e86f3b636dd9ed82e9c2b";
 const weatherBaseUrl = "https://api.openweathermap.org/data/2.5/onecall?"; 
-const locBaseUrl = "http://api.openweathermap.org/geo/1.0/direct?q=";
+const locBaseUrl = "https://api.openweathermap.org/geo/1.0/direct?q=";
 let weatherData = [];
 
 buttonEl.click(handleSubmit);
