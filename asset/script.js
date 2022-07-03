@@ -65,11 +65,11 @@ function fetchData() {
 function handleWeatherData(data) {
     for (let i = 0; i < 6; i++) {
         weatherData.push({});
-        weatherData[weatherData.length - 1]["date"] = moment.unix(data.daily[i].dt).format('D/M/YYYY');
+        weatherData[weatherData.length - 1]["date"] = moment.unix(data.daily[i].dt).utcOffset('+1000').format('D/M/YYYY');
         weatherData[weatherData.length - 1]["icon"] = data.daily[i].weather[0].icon;
-        weatherData[weatherData.length - 1]["temp"] = data.daily[i].temp.day;
-        weatherData[weatherData.length - 1]["wind"] = data.daily[i].wind_speed;
-        weatherData[weatherData.length - 1]["humidity"] = data.daily[i].humidity;
+        weatherData[weatherData.length - 1]["temp"] = data.daily[i].temp.day + "°C";
+        weatherData[weatherData.length - 1]["wind"] = data.daily[i].wind_speed + "metre/sec";
+        weatherData[weatherData.length - 1]["humidity"] = data.daily[i].humidity + "%";
         weatherData[weatherData.length - 1]["uvIndex"] = data.daily[i].uvi;
     }
 }
