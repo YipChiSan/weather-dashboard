@@ -71,6 +71,17 @@ function handleWeatherData(data) {
         weatherData[weatherData.length - 1]["wind"] = data.daily[i].wind_speed + "metre/sec";
         weatherData[weatherData.length - 1]["humidity"] = data.daily[i].humidity + "%";
         weatherData[weatherData.length - 1]["uvIndex"] = data.daily[i].uvi;
+        weatherData[weatherData.length - 1]["uvIndexDesc"] = getUVIndexCollection(data.daily[i].uvi);
+    }
+}
+
+function getUVIndexCollection(uvi) {
+    if (uvi <= 2) {
+        return "f";
+    } else if (uvi <= 7) {
+        return "m";
+    } else {
+        return 's';
     }
 }
 
